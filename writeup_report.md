@@ -11,6 +11,8 @@
 [piecharts]: ./writeup-examples/pie_chars.jpg "Pie Charts Representing the Top 5 Predictions per Image"
 [sign_color]: ./writeup-examples/sign_color.png "'Go straight or right' Traffic Sign in Color"
 [sign_grey]: ./writeup-examples/sign_grey.png "'Go straight or right' Traffic Sign in GrayScale"
+[conv2_vis]: ./writeup-examples/conv2_visual.jpg "Conv2 Feature Map Visual"
+[conv2_img]: ./writeup-examples/conv2_img.jpg "Conv2 Image run"
 
 This report regards a Traffic Sign Classifier project: and here is a link to my [project code](https://github.com/mashraf94/Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier_Project2.ipynb)
 
@@ -167,13 +169,11 @@ The model was able to correctly guess 12 of the 13 traffic signs, which gives an
 
 ## Softmax Probabilities Visualization:
 ### Following are 13 pie charts for every image:
-    * Each Pie Chart Resembles every image tested
-    * The legend shows a range of numbers from 1 to 5: 1 is the Highest Probability and 5 is the Lowest
-    * On the left of each pie chart is the Sign Name of the Highest Prediction
-    * On the top of each pie chart is the Correct Sign Name
-    
+   * Each Pie Chart Resembles every image tested
+   * The legend shows a range of numbers from 1 to 5: 1 is the Highest Probability and 5 is the Lowest
+   * On the left of each pie chart is the Sign Name of the Highest Prediction
+   * On the top of each pie chart is the Correct Sign Name
 ![alt text][piecharts]
-
 ##### The previous figure shows that for most images, the model is relatively sure of the correct sign, however as the image complexity increases, the model is slightly less sure:
 
 * For Example: The 'Beware of ice/snow' sign and the 'Roundabout Mandatory', although correct, the model is less sure of its prediction than the 'Yield' Sign. This might result from:
@@ -216,5 +216,13 @@ Nonetheless, its obvious that the model is a lot less convinced with its predict
 | | 81.228 % | 	13.098 %	 | 2.633 %	 | 1.520 % | 	0.391 % | 
 
 
+## Feature Map Visualization of 2nd Convolutional Layer
 
+The following image, representing the priority road traffic sign is run through the network.
+![alt text][conv2_img]
+
+This image activates 16 different Feature Maps in the 2nd Convolutional Layer which are represented below:
+![alt text][conv2_vis]
+
+These 16 Feature maps, each represent what did each feature map observe in this image.
 
