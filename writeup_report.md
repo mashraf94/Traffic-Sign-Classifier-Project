@@ -102,16 +102,15 @@ The choice of these hyperparameters required several trials to reach this final 
 * Used the Adam Optimizer for training the network with backpropagation and stochastic gradient descent.
 
 
+## Model Performance
 My final model results were:
 * Validation Set Accuracy = 95.44 % 
 * Test Set Accuracy = 93.51 %
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
+## Model Tuning and Performance Enhancing
 1. Implemented the LeNet convolutional neural network, for it's simplicity and low computational cost.
     * Produced low accuracies and incompetent performance, due to overfitting of the training dataset.
 2. Implemented the VGG "Visual Geometric Group" convolutional network, which is known for it's state-of-art performance on image recognition task.
-   //INSERT VGG .ipynb file
     * The VGG implementation acquired significantly higher performance than LeNet with colored photos
     * VGG was significantly expensive computationally for its complexity since it had wider layers and it was deeper than LeNet 
            + VGG could only run on an AWS GPU instance.
@@ -130,7 +129,7 @@ If an iterative approach was chosen:
  
 
 ## Testing the Model on New Images
-
+### Introduction to the Chosen Images
 These are thirteen German traffic signs that I found on the web:
 
 <p align="center"><img src="./writeup-examples/internet-examples.jpg" width="10000"></p>
@@ -145,7 +144,7 @@ The third, eleventh, twelfth and thirteenth image all had high detailed traffic 
 
 The sixth image is a 'Right Ahead' sign which is blue, and the image shows the sign with a blue similar background, which might be challenging for the network to determine the edges of the sign.
 
-Here are the results of the prediction:
+### Prediction Results
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -165,19 +164,29 @@ Here are the results of the prediction:
 
 The model was able to correctly guess 12 of the 13 traffic signs, which gives an accuracy of 92.3 %. This compares favorably to the accuracy on the test set of 93.5 %
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
+## Softmax Probabilities Visualization:
+### Following are 13 pie charts for every image:
+    * Each Pie Chart Resembles every image tested
+    * The legend shows a range of numbers from 1 to 5: 1 is the Highest Probability and 5 is the Lowest
+    * On the left of each pie chart is the Sign Name of the Highest Prediction
+    * On the top of each pie chart is the Correct Sign Name
+    
 ![alt text][piecharts]
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The previous figure shows that for most images, the model is relatively sure of the correct sign, however as the image complexity increases, the model is slightly less sure:
+       * For Example: The 'Beware of ice/snow' sign and the 'Roundabout Mandatory', although correct, the model is less sure of its prediction than the 'Yield' Sign.
+            + That might result from the difference in complexity between those two signs, however I think its mostly impacted by the low density of the 'Beware of ice/snow: #30' and 'Roundabout Mandatory: #40' examples in the training data set, in contrast to the high density of 'Yield: #13' traffic Sign.
+                 + Note: You can check the Training data set bar chart to visualize the difference 
 
-| Image			        |     1st Probability	        					|  2nd Probability | 3rd Probability | 4th Probability | 5th Probability |
-|:---------------------:|:---------------------------------------------:|:------------:|:------------:|:------------:|:------------:|
+Nonetheless, its obvious that the model is a lot less convinced with its prediction for the 'Wild Animal Crossing' Sign, as its only 65.9 % thinks its a 'Bumpy Road' Sign and a probability of 4.7 % that its the 'Wild Animal Crossing' Sign as its 5th highest prediction.
+
+### This is a table representing the 13 images tested, and the top 5 softmax probabilities produced by the network analyzing these images:
+
+| Image			    |     1st Probability	      		|  2nd Probability | 3rd Probability | 4th Probability | 5th Probability |
+|:--------------:|:------------:|:------------:|:------------:|:------------:|:--------------------------:|
 | Stop Sign      		| Stop sign | No entry	|	Turn right ahead	|	No vehicles |		Speed limit (120km/h) |
 | | 98.852 %	| 0.231 %	| 0.188 % |	0.186 %	| 0.127 % |
-| 
 | General Caution     			|  General Caution  										| Traffic signals	|	Pedestrians	|	Road narrows on the right	|	Road work		|
 | | 99.816 %	| 0.125 %	| 0.059 %	| 0.001 %	| 0.000 % |
 | Road Work					| Road Work											| Bumpy road	|	Wild animals crossing	|	Bicycles crossing	|	Road narrows on the right	|
