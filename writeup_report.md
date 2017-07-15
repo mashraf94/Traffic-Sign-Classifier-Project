@@ -1,6 +1,6 @@
-#**Traffic Sign Recognition** 
+# **Traffic Sign Recognition** 
 
-##Writeup Report
+## Writeup Report
 
 [//]: # (Image References)
 
@@ -38,7 +38,7 @@ Test Set Representation per Label:
 
 ![alt text][hist_test]
 
-#### Data Preprocessing
+## Data Preprocessing
 1. Convert the images to grayscale using the OpenCV library:
   * Decreased the computational complexity of the model 
   * Made the model more focused on the shapes defining each traffic sign, while reducing the color noise in each image. 
@@ -65,7 +65,7 @@ Here is an example of a 'Go straight or right' sign image before and after grays
   * The shuffling had a major role in the training of the model and a huge impact on the network's accuracy.
 
 
-#### Model Architecture
+## Model Architecture
 This model architecture follows the implementation of the LeNet CNN.
 
 My final model consisted of the following layers:
@@ -89,8 +89,8 @@ My final model consisted of the following layers:
  
 
 
-#### Model Training
-###### Tuned Parameters
+## Model Training
+### Tuned Parameters
 The choice of these hyperparameters required several trials to reach this final combination which represents the maximum performance achieved.
 1. Epochs # 15   --------- Chosen upon the fact that the model reaches a plateau by the 15th epoch
 2. Batch Size # 128  --------- Appropriate and efficient batch size     
@@ -132,7 +132,7 @@ If a well known architecture was chosen:
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
  
 
-###Test a Model on New Images
+## Testing the Model on New Images
 
 ####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
@@ -190,9 +190,5 @@ For the first image, the model is relatively sure that this is a stop sign (prob
 | .01				    | Slippery Road      							|
 
 
-For the second image ... 
-
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
 
