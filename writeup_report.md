@@ -100,8 +100,8 @@ The choice of these hyperparameters required several trials to reach this final 
 4. Mean = 0.  &  Standard Deviation = 0.1 --------- Values fed for the tf.truncated_normal() function for weight initialization 
 5. Dropout = 0.5 --------- The probability for the dropout layers which decreased vastly the overfitting of the dataset
 
-* Used the tf.nn.softmax_cross_entropy_with_logits() function to calculate the logits probabilities using: softmax + the cross entropy 
-* Used the Adam Optimizer for training the network with backpropagation and stochastic gradient descent.
+    * Used the tf.nn.softmax_cross_entropy_with_logits() function to calculate the logits probabilities using: softmax + the cross entropy 
+    * Used the Adam Optimizer for training the network with backpropagation and stochastic gradient descent.
 
 
 ## Model Performance
@@ -132,7 +132,7 @@ My final model results were:
 
 ## Testing the Model on New Images
 ### Introduction to the Chosen Images
-These are thirteen German traffic signs that I found on the web:
+##### These are thirteen German traffic signs that I found on the web:
 
 <p align="center"><img src="./writeup-examples/internet-examples.jpg" width="10000"></p>
 
@@ -218,11 +218,10 @@ Nonetheless, its obvious that the model is a lot less convinced with its predict
 
 ## Feature Map Visualization of 2nd Convolutional Layer
 
-The following image, representing the priority road traffic sign is run through the network.
+#### The following image, representing the "priority road" traffic sign is run through the network.
 ![alt text][conv2_img]
 
-This image activates 16 different Feature Maps in the 2nd Convolutional Layer which are represented below:
+#### This image activates 16 different Feature Maps in the 2nd Convolutional Layer, representing what did each feature map observe in this image. as visualized below:
 ![alt text][conv2_vis]
 
-These 16 Feature maps, each represent what did each feature map observe in this image.
 
