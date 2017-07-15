@@ -110,7 +110,7 @@ If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
 1. Implemented the LeNet convolutional neural network, for it's simplicity and low computational cost.
     * Produced low accuracies and incompetent performance, due to overfitting of the training dataset.
-2. Implemented the VGG "Visual Geometric Group" convolutional network, which is known for it's state-of-art performance
+2. Implemented the VGG "Visual Geometric Group" convolutional network, which is known for it's state-of-art performance on image recognition task.
    //INSERT VGG .ipynb file
     * The VGG implementation acquired significantly higher performance than LeNet with colored photos
     * VGG was significantly expensive computationally for its complexity since it had wider layers and it was deeper than LeNet 
@@ -120,25 +120,20 @@ If an iterative approach was chosen:
           1. Changed images to grayscale, and applied a histogram equalization so the network could focus on the main features in each traffic sign
          2. Through an iterative approach, used several normalization techniques to acquire the highest performance of the network.
           3. Reduced overfitting by adjusting the network and introducing 2 dropout layers following each fully connected layer.
+               * The Dropout Layer was the major enhancement to the network's performance, since the network was trained not to depend on specific weights, by dropping randomly half the fully connected layers.
           4. Tried introducing a third convolutional layer to the network, but it didn't affect the network's performance at all.
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+          5. Tested Average Pooling instead of Max Pooling, yet Max Pooling acquired higher performance.
+          5. Tuning the learning rate from ranges 0.0001 - (Didn't Converge) to 0.01 (Was obviously Overshooting)
+          6. Tuning the number of epochs for the model to converge.
+          7. Tuning the dropout layer keep_prob parameter, 0.75 was still overfitting the dataset.
+          8. Finalized the model.
  
 
 ## Testing the Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+These are thirteen German traffic signs that I found on the web:
 
-Here are thirteen German traffic signs that I found on the web:
-
-<p align="center"><img src="./writeup-examples/internet-examples.jpg" width="500"></p>
+<p align="center"><img src="./writeup-examples/internet-examples.jpg" width="10000"></p>
 
 The first image might be difficult to classify because it is filling the whole image extensively which looks nothing like the training images, however this tests the networks capabilities of identifying the word 'STOP'.
 
@@ -149,8 +144,6 @@ The fifth, seventh, eighth and ninth images contain intense color noise in the b
 The third, eleventh, twelfth and thirteenth image all had high detailed traffic signs with complicated symbols that could be hard to determine using a simple network as LeNet.
 
 The sixth image is a 'Right Ahead' sign which is blue, and the image shows the sign with a blue similar background, which might be challenging for the network to determine the edges of the sign.
-
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
@@ -166,10 +159,9 @@ Here are the results of the prediction:
 | Roundabout Mandatory | Roundabout Mandatory | 
 | Priority Road | Priority Road |
 | Yield					| Yield											|
-| Wild Animals Crossing | Wild Animals Crossing |
+| Wild Animals Crossing | Bumpy Road |
 | Beware of ice/snow | Beware of ice/snow |
 | Pedestrians | Pedestrians |
-
 
 The model was able to correctly guess 12 of the 13 traffic signs, which gives an accuracy of 92.3 %. This compares favorably to the accuracy on the test set of 93.5 %
 
@@ -181,13 +173,35 @@ The code for making predictions on my final model is located in the 11th cell of
 
 For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| Image			        |     1st Probability	        					|  2nd Probability | 3rd Probability | 4th Probability | 5th Probability |
+|:---------------------:|:---------------------------------------------:|:------------:|:------------:|:------------:|:------------:|
+| Stop Sign      		| Stop sign | No entry	|	Turn right ahead	|	No vehicles |		Speed limit (120km/h) |
+| | 98.852 %	| 0.231 %	| 0.188 % |	0.186 %	| 0.127 % |
+| 
+| General Caution     			|  General Caution  										| Traffic signals	|	Pedestrians	|	Road narrows on the right	|	Road work		|
+| | 99.816 %	| 0.125 %	| 0.059 %	| 0.001 %	| 0.000 % |
+| Road Work					| Road Work											| Bumpy road	|	Wild animals crossing	|	Bicycles crossing	|	Road narrows on the right	|
+| | 98.389 % |	0.468 %	| 0.449 %	| 0.393 % |	0.279 % |
+| Right-of-way at the next intersection |  Right-of-way at the next intersection | Beware of ice/snow	|	Children crossing |		Double curve |		Pedestrians	|
+| | 98.367 %	| 1.581 %	| 0.039 % |	0.009 %	 |	0.003 % |		
+| Bumpy Road | Bumpy Road | Bicycles crossing	 |		Traffic signals		 |	Children crossing	 |		No entry		 |	
+| |	99.331 % | 	0.631 % | 	0.021 %	 | 0.010 %	 | 0.003 %	 | 
+| Turn Right Ahead | Turn Right Ahead | Ahead only	 | 	Keep left		 | Bicycles crossing	 | 	Speed limit (60km/h)		 | 
+| | 96.805 % | 	2.159 %	 | 0.219 %	 | 0.160 %	 | 0.147 % | 
+| Speed Limit (30km/h) | Speed Limit (30km/h) | Speed limit (20km/h) | Speed limit (70km/h)		 | Speed limit (50km/h)		 | Speed limit (100km/h)		 | 
+| | 97.251 % |	2.362 % |	0.351 % |	0.029 % |	0.003 % |
+| Roundabout Mandatory | Roundabout Mandatory | Priority road	 |	End of no passing by vehicles over 3.5 metric tons |		End of all speed and passing limits |		End of no passing |
+| | 85.642 % | 	11.570 % | 	1.303 % | 	0.721 %	 | 0.321 % | 
+| Priority Road | Priority Road | Roundabout mandatory		|		End of all speed and passing limits			|	General caution		|		End of no passing		|
+| | 99.998 %	 | 0.002 % |	0.000 % |	0.000 % |	0.000 % |
+| Yield					| Yield											| No vehicles	| 		Priority road	| 		Ahead only		| 	No passing	| 
+| | 100.000 % | 	0.000 % | 	0.000 %	| 0.000 %	| 0.000 % |
+| Wild Animals Crossing | Bumpy road | 		Bicycles crossing | 		Dangerous curve to the right	 | 	Beware of ice/snow	 | 	Wild animals crossing		 | 
+| | 65.924 % | 	19.234 % | 	4.921 % | 	4.722 %	 | 4.063 % | 
+| Beware of ice/snow | Beware of ice/snow | Right-of-way at the next intersection | 		Slippery road | 		Children crossing | 		Double curve | 
+| | 92.151 % | 	6.773 % | 	0.568 % | 	0.472 % | 	0.018 % | 
+| Pedestrians | Pedestrians | Road narrows on the right	 | 	General caution		 | Dangerous curve to the right | 		Traffic signals	 | 
+| | 81.228 % | 	13.098 %	 | 2.633 %	 | 1.520 % | 	0.391 % | 
 
 
 
