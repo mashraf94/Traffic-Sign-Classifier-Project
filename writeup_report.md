@@ -40,29 +40,29 @@ Test Set Representation per Label:
 
 ## Data Preprocessing
 1. Convert the images to grayscale using the OpenCV library:
-  * Decreased the computational complexity of the model 
-  * Made the model more focused on the shapes defining each traffic sign, while reducing the color noise in each image. 
-    - Nonetheless, I tried running the model using the three color channels, and it was a lot slower and scored lower accuracies.
+     * Decreased the computational complexity of the model 
+     * Made the model more focused on the shapes defining each traffic sign, while reducing the color noise in each image. 
+        - Nonetheless, I tried running the model using the three color channels, and it was a lot slower and scored lower accuracies.
 
 2. Used the OpenCV library for Histogram Equalization:
-  * increase the global contrast of the images, enhancing the intensity distribution throughout each image.
+       * increase the global contrast of the images, enhancing the intensity distribution throughout each image.
 
 Here is an example of a 'Go straight or right' sign image before and after grayscaling, and histogram equalization.
 
 ![alt text][sign_color]                                            ![alt text][sign_grey]
 
 3. Tried a Gaussian Blur from OpenCV to reduce any noise in the data:
-  * Reduced the performance of the network, since it reduced the resolution of the images.
-  * The gaussian blur preprocessing failed to improve the network's efficiency hence was removed.
+     * Reduced the performance of the network, since it reduced the resolution of the images.
+     * The gaussian blur preprocessing failed to improve the network's efficiency hence was removed.
   
 4. Normalizing the data using the OpenCV Library Min-Max Normalization:
-  * Reduced the pixels values between -1. and 1. to centralize the data around the origin
-  * Reduced the data's mean and standard deviation for better and more valuable training.
-    - Manipulated the alpha=-1. and beta=1. but other variations caused a drastic change in validation and test accuracies
+      * Reduced the pixels values between -1. and 1. to centralize the data around the origin
+      * Reduced the data's mean and standard deviation for better and more valuable training.
+        - Manipulated the alpha=-1. and beta=1. but other variations caused a drastic change in validation and test accuracies
 
 5. Shuffling the entire data set, and labels, using the sklearn library:
-  * Randomly shuffling the data for training to attain a random distribution throughout each batch for Stochastic Gradient Descent.
-  * The shuffling had a major role in the training of the model and a huge impact on the network's accuracy.
+     * Randomly shuffling the data for training to attain a random distribution throughout each batch for Stochastic Gradient Descent.
+     * The shuffling had a major role in the training of the model and a huge impact on the network's accuracy.
 
 
 ## Model Architecture
@@ -174,10 +174,13 @@ The model was able to correctly guess 12 of the 13 traffic signs, which gives an
     
 ![alt text][piecharts]
 
-The previous figure shows that for most images, the model is relatively sure of the correct sign, however as the image complexity increases, the model is slightly less sure:
-       * For Example: The 'Beware of ice/snow' sign and the 'Roundabout Mandatory', although correct, the model is less sure of its prediction than the 'Yield' Sign.
-            + That might result from the difference in complexity between those two signs, however I think its mostly impacted by the low density of the 'Beware of ice/snow: #30' and 'Roundabout Mandatory: #40' examples in the training data set, in contrast to the high density of 'Yield: #13' traffic Sign.
-                 + Note: You can check the Training data set bar chart to visualize the difference 
+##### The previous figure shows that for most images, the model is relatively sure of the correct sign, however as the image complexity increases, the model is slightly less sure:
+
+* For Example: The 'Beware of ice/snow' sign and the 'Roundabout Mandatory', although correct, the model is less sure of its prediction than the 'Yield' Sign. This might result from:
+    - The difference in detail complexities between these signs graphical details. 
+    - The effect of Low density of the 'Beware of ice/snow: #30' and 'Roundabout Mandatory: #40' examples in the training data set
+    - In contrast, with 'Yield: #13' traffic Sign, which has one of the highest densities in the data set.
+      - Note: You can check the Training data set bar chart to visualize the difference 
 
 Nonetheless, its obvious that the model is a lot less convinced with its prediction for the 'Wild Animal Crossing' Sign, as its only 65.9 % thinks its a 'Bumpy Road' Sign and a probability of 4.7 % that its the 'Wild Animal Crossing' Sign as its 5th highest prediction.
 
