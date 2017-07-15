@@ -24,7 +24,8 @@ The goals / steps of this project are the following:
 [hist_test]: ./writeup-examples/hist_test.jpg "Test Set Representation per Label"
 [imgs_test]: ./writeup-examples/internet-examples.jpg "13 Downloaded Images for Testing"
 [piecharts]: ./writeup-examples/pie_chars.jpg "Pie Charts Representing the Top 5 Predictions per Image"
-[sign_color]: ./writeup-examples/sign_color.png ""
+[sign_color]: ./writeup-examples/sign_color.png "'Go straight or right' Traffic Sign in Color"
+[sign_grey]: ./writeup-examples/sign_grey.png "'Go straight or right' Traffic Sign in GrayScale"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -73,8 +74,13 @@ Test Set Representation per Label:
   * Decreased the computational complexity of the model 
   * Made the model more focused on the shapes defining each traffic sign, while reducing the color noise in each image. 
     - Nonetheless, I tried running the model using the three color channels, and it was a lot slower and scored lower accuracies.
+
 2. Used the OpenCV library for Histogram Equalization:
   * increase the global contrast of the images, enhancing the intensity distribution throughout each image.
+
+Here is an example of a 'Go straight or right' sign image before and after grayscaling, and histogram equalization.
+
+![alt text][sign_color]                                            ![alt text][sign_grey]
 
 3. Normalizing the data using the OpenCV Min-Max Normalization:
   * Reduced the pixels values between -1. and 1. to centralize the data around the origin
@@ -85,54 +91,55 @@ Test Set Representation per Label:
   * Randomly shuffling the data for training to attain a random distribution throughout each batch for Stochastic Gradient Descent.
   * The shuffling had a major role in the training of the model and a huge impact on the network's accuracy.
 
-Here is an example of a 'Go straight or right' sign image before and after grayscaling.
-
-![alt text][image2]
-
-As a last step, I normalized the image data because ...
-
-I decided to generate additional data because ... 
-
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
-
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+
+#### Model Architecture
+This model architecture follows the implementation of the LeNet CNN.
 
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Input         		| 32x32x1 Grayscaled image   							| 
+| Convolution 5x5     	| 1x1 stride, VALID padding, outputs 28x28x6 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
+| Convolution 5x5	    | 1x1 stride, VALID padding, outputs 10x10x16 	|
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x16 				|
+| Fully connected		| 120 unit        									|
+| RELU					|												|
+| Dropout				| 0.5 keep_prob        									|
+| Fully connected		| 83 unit        									|
+| RELU					|												|
+| Dropout				| 0.5 keep_prob        									|
+|	Output					|	43 Logits											|
  
 
 
 ####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+#### Model Training
+###### Tuned Parameters
+The choice of these hyperparameters required several trials to reach this final combination which represents the maximum performance achieved.
+1. Epochs # 15    # Chosen upon the fact that the model reaches a plateau by the 15th epoch
+2. Batch Size # 128    # Appropriate and efficient batch size     
+3. Learning Rate = 0.001    # Through many tests, this learning rate was right before overshooting, nonetheless fast and converges
+4. Mean = 0.  &  Standard Deviation = 0.1    # Values fed for the tf.truncated_normal() function for weight initialization 
+5. Dropout = 0.5    # The probability for the dropout layers which decreased vastly the overfitting of the dataset
+
+* Used the tf.nn.softmax_cross_entropy_with_logits() function to calculate the logits probabilities using: softmax + the cross entropy 
+* Used the Adam Optimizer for training the network with backpropagation and stochastic gradient descent.
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* Validation Set Accuracy = 95.44 % 
+* Test Set Accuracy = 93.51 %
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
+
 * What were some problems with the initial architecture?
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
 * Which parameters were tuned? How were they adjusted and why?
