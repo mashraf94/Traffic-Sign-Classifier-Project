@@ -12,7 +12,7 @@
 [sign_color]: ./writeup-examples/sign_color.png "'Go straight or right' Traffic Sign in Color"
 [sign_grey]: ./writeup-examples/sign_grey.png "'Go straight or right' Traffic Sign in GrayScale"
 
-You're reading it! and here is a link to my [project code](https://github.com/mashraf94/Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier_Project2.ipynb)
+This report regards a Traffic Sign Classifier project: and here is a link to my [project code](https://github.com/mashraf94/Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier_Project2.ipynb)
 
 I used the numpy library to calculate summary statistics of the traffic
 signs data set:
@@ -117,10 +117,10 @@ If an iterative approach was chosen:
            + VGG could only run on an AWS GPU instance.
 3. Although VGG is a far more powerful network than LeNet it was costy, therefore I tried manipulating the dataset and LeNet implementation to achieve a close performance to VGG with a way more simplistic model.
      * **Steps**:
-          a. Changed images to grayscale, and applied a histogram equalization so the network could focus on the main features in each traffic sign
-          b. Through an iterative approach, used several normalization techniques to acquire the highest performance of the network.
-          c. Reduced overfitting by adjusting the network and introducing 2 dropout layers following each fully connected layer.
-          d. Tried introducing a third convolutional layer to the network, but it didn't affect the network's performance at all.
+          1. Changed images to grayscale, and applied a histogram equalization so the network could focus on the main features in each traffic sign
+         2. Through an iterative approach, used several normalization techniques to acquire the highest performance of the network.
+          3. Reduced overfitting by adjusting the network and introducing 2 dropout layers following each fully connected layer.
+          4. Tried introducing a third convolutional layer to the network, but it didn't affect the network's performance at all.
 * What were some problems with the initial architecture?
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
 * Which parameters were tuned? How were they adjusted and why?
@@ -138,7 +138,7 @@ If a well known architecture was chosen:
 
 Here are thirteen German traffic signs that I found on the web:
 
-![alt text][imgs_test]
+<p align="center"><img src="./writeup-examples/internet-examples.jpg" width="500"></p>
 
 The first image might be difficult to classify because it is filling the whole image extensively which looks nothing like the training images, however this tests the networks capabilities of identifying the word 'STOP'.
 
