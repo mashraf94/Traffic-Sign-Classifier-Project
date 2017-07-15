@@ -24,6 +24,7 @@ The goals / steps of this project are the following:
 [hist_test]: ./writeup-examples/hist_test.jpg "Test Set Representation per Label"
 [imgs_test]: ./writeup-examples/internet-examples.jpg "13 Downloaded Images for Testing"
 [piecharts]: ./writeup-examples/pie_chars.jpg "Pie Charts Representing the Top 5 Predictions per Image"
+[sign_color]: ./writeup-examples/hist_train.jpg "Training Set Representation per Label"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -50,26 +51,41 @@ signs data set:
 
 ####2. Include an exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set using bar charts to represent the number of images for each label within the data sets. 
-The Training Set:
+Here is an exploratory visualization of the data set using bar charts to represent the number of images for each label within the data sets. Through these representations, we'd realize that, specially the training data set, has huge variances in the density of data images per label. This had a huge impact throughout the visualization of the network's feature maps, since the activations for the low density labels were a lot more vague than others with high densities.
+
+Training Set Representation per Label:
 
 ![alt text][hist_train]
 
-The Validation Set:
+Validation Set Representation per Label:
 
 ![alt text][hist_valid]
 
-The Test Set:
+Test Set Representation per Label:
 
 ![alt text][hist_test]
 
 ###Design and Test a Model Architecture
 
 ####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+#### Data Preprocessing
+1. Convert the images to grayscale using the OpenCV library:
+  * Decreased the computational complexity of the model 
+  * Made the model more focused on the shapes defining each traffic sign, while reducing the color noise in each image. 
+    - Nonetheless, I tried running the model using the three color channels, and it was a lot slower and scored lower accuracies.
+2. Used the OpenCV library for Histogram Equalization:
+  * increase the global contrast of the images, enhancing the intensity distribution throughout each image.
 
-As a first step, I decided to convert the images to grayscale because ...
+3. Normalizing the data using the OpenCV Min-Max Normalization:
+  * Reduced the pixels values between -1. and 1. to centralize the data around the origin
+  * Reduced the data's mean and standard deviation for better and more valuable training.
+    - Manipulated the alpha=-1. and beta=1. but other variations caused a drastic change in validation and test accuracies
 
-Here is an example of a traffic sign image before and after grayscaling.
+4. Shuffling the entire data set, and labels, using the sklearn library:
+  * Randomly shuffling the data for training to attain a random distribution throughout each batch for Stochastic Gradient Descent.
+  * The shuffling had a major role in the training of the model and a huge impact on the network's accuracy.
+
+Here is an example of a 'Go straight or right' sign image before and after grayscaling.
 
 ![alt text][image2]
 
