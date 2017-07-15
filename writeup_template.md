@@ -24,7 +24,7 @@ The goals / steps of this project are the following:
 [hist_test]: ./writeup-examples/hist_test.jpg "Test Set Representation per Label"
 [imgs_test]: ./writeup-examples/internet-examples.jpg "13 Downloaded Images for Testing"
 [piecharts]: ./writeup-examples/pie_chars.jpg "Pie Charts Representing the Top 5 Predictions per Image"
-[sign_color]: ./writeup-examples/hist_train.jpg "Training Set Representation per Label"
+[sign_color]: ./writeup-examples/sign_color.png ""
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
