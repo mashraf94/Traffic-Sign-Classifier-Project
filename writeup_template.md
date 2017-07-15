@@ -82,12 +82,16 @@ Here is an example of a 'Go straight or right' sign image before and after grays
 
 ![alt text][sign_color]                                            ![alt text][sign_grey]
 
-3. Normalizing the data using the OpenCV Min-Max Normalization:
+3. Tried a Gaussian Blur from OpenCV to reduce any noise in the data:
+  * Reduced the performance of the network, since it reduced the resolution of the images.
+  * The gaussian blur preprocessing failed to improve the network's efficiency hence was removed.
+  
+4. Normalizing the data using the OpenCV Library Min-Max Normalization:
   * Reduced the pixels values between -1. and 1. to centralize the data around the origin
   * Reduced the data's mean and standard deviation for better and more valuable training.
     - Manipulated the alpha=-1. and beta=1. but other variations caused a drastic change in validation and test accuracies
 
-4. Shuffling the entire data set, and labels, using the sklearn library:
+5. Shuffling the entire data set, and labels, using the sklearn library:
   * Randomly shuffling the data for training to attain a random distribution throughout each batch for Stochastic Gradient Descent.
   * The shuffling had a major role in the training of the model and a huge impact on the network's accuracy.
 
@@ -100,18 +104,18 @@ My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x1 Grayscaled image   							| 
-| Convolution 5x5     	| 1x1 stride, VALID padding, outputs 28x28x6 	|
+| Input         		| 32x32x1 --  Grayscaled image   							| 
+| Convolution 5x5     	| 1x1 stride + VALID padding + outputs 28x28x6 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
-| Convolution 5x5	    | 1x1 stride, VALID padding, outputs 10x10x16 	|
+| Max pooling	      	| 2x2 stride + outputs 14x14x6 				|
+| Convolution 5x5	    | 1x1 stride + VALID padding + outputs 10x10x16 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 5x5x16 				|
+| Max pooling	      	| 2x2 stride + outputs 5x5x16 				|
 | Fully connected		| 120 unit        									|
 | RELU					|												|
 | Dropout				| 0.5 keep_prob        									|
 | Fully connected		| 83 unit        									|
-| RELU					|												|
+| RELU																	|
 | Dropout				| 0.5 keep_prob        									|
 |	Output					|	43 Logits											|
  
@@ -122,11 +126,11 @@ My final model consisted of the following layers:
 #### Model Training
 ###### Tuned Parameters
 The choice of these hyperparameters required several trials to reach this final combination which represents the maximum performance achieved.
-1. Epochs # 15    # Chosen upon the fact that the model reaches a plateau by the 15th epoch
-2. Batch Size # 128    # Appropriate and efficient batch size     
-3. Learning Rate = 0.001    # Through many tests, this learning rate was right before overshooting, nonetheless fast and converges
-4. Mean = 0.  &  Standard Deviation = 0.1    # Values fed for the tf.truncated_normal() function for weight initialization 
-5. Dropout = 0.5    # The probability for the dropout layers which decreased vastly the overfitting of the dataset
+1. Epochs # 15   --------- Chosen upon the fact that the model reaches a plateau by the 15th epoch
+2. Batch Size # 128  --------- Appropriate and efficient batch size     
+3. Learning Rate = 0.001 --------- Through many tests, this learning rate was right before overshooting, nonetheless fast and converges
+4. Mean = 0.  &  Standard Deviation = 0.1 --------- Values fed for the tf.truncated_normal() function for weight initialization 
+5. Dropout = 0.5 --------- The probability for the dropout layers which decreased vastly the overfitting of the dataset
 
 * Used the tf.nn.softmax_cross_entropy_with_logits() function to calculate the logits probabilities using: softmax + the cross entropy 
 * Used the Adam Optimizer for training the network with backpropagation and stochastic gradient descent.
@@ -139,7 +143,19 @@ My final model results were:
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
-
+1. Implemented the LeNet convolutional neural network, for it's simplicity and low computational cost.
+    * Produced low accuracies and incompetent performance, due to overfitting of the training dataset.
+2. Implemented the VGG "Visual Geometric Group" convolutional network, which is known for it's state-of-art performance
+   //INSERT VGG .ipynb file
+    * The VGG implementation acquired significantly higher performance than LeNet with colored photos
+    * VGG was significantly expensive computationally for its complexity since it had wider layers and it was deeper than LeNet 
+           + VGG could only run on an AWS GPU instance.
+3. Although VGG is a far more powerful network than LeNet it was costy, therefore I tried manipulating the dataset and LeNet implementation to achieve a close performance to VGG with a way more simplistic model.
+     * **Steps**:
+          a. Changed images to grayscale, and applied a histogram equalization so the network could focus on the main features in each traffic sign
+          b. Through an iterative approach, used several normalization techniques to acquire the highest performance of the network.
+          c. Reduced overfitting by adjusting the network and introducing 2 dropout layers following each fully connected layer.
+          d. Tried introducing a third convolutional layer to the network, but it didn't affect the network's performance at all.
 * What were some problems with the initial architecture?
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
 * Which parameters were tuned? How were they adjusted and why?
@@ -155,12 +171,19 @@ If a well known architecture was chosen:
 
 ####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+Here are thirteen German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][imgs_test]
 
-The first image might be difficult to classify because ...
+The first image might be difficult to classify because it is filling the whole image extensively which looks nothing like the training images, however this tests the networks capabilities of identifying the word 'STOP'.
+
+The second, fourth and tenth images are difficult since all of them have the signs skewed with a different angle, and not straight forward like the training data set.
+
+The fifth, seventh, eighth and ninth images contain intense color noise in the background and had either dirt or an irregularity on top of the sign in the image 
+
+The third, eleventh, twelfth and thirteenth image all had high detailed traffic signs with complicated symbols that could be hard to determine using a simple network as LeNet.
+
+The sixth image is a 'Right Ahead' sign which is blue, and the image shows the sign with a blue similar background, which might be challenging for the network to determine the edges of the sign.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -169,17 +192,27 @@ Here are the results of the prediction:
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
+| General Caution     			|  General Caution  										|
+| Road Work					| Road Work											|
+| Right-of-way at the next intersection |  Right-of-way at the next intersection |
+| Bumpy Road | Bumpy Road |
+| Turn Right Ahead | Turn Right Ahead |
+| Speed Limit (30km/h) | Speed Limit (30km/h) |
+| Roundabout Mandatory | Roundabout Mandatory | 
+| Priority Road | Priority Road |
 | Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Wild Animals Crossing | Wild Animals Crossing |
+| Beware of ice/snow | Beware of ice/snow |
+| Pedestrians | Pedestrians |
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 12 of the 13 traffic signs, which gives an accuracy of 92.3 %. This compares favorably to the accuracy on the test set of 93.5 %
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
 The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+
+![alt text][piecharts]
 
 For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
 
